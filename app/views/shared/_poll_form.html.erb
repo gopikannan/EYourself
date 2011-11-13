@@ -1,0 +1,42 @@
+<script src="jquery.textbox-hinter.js" language="javascript" type="text/javascript"></script>
+<div class="poll_form">
+
+<script type="text/javascript">
+$(document).ready(function(){
+        $('.question').tbHinter({
+                text: 'Question the world!',
+                class: 'grey'
+        });
+        $('.option1').tbHinter({
+                text: 'Option 1?',
+                class: 'grey'
+        });
+        $('.option2').tbHinter({
+                text: 'Option 2?',
+                class: 'grey'
+        });
+
+});
+
+</script>
+
+<style>
+
+.grey{
+        color: #999999;
+}
+
+</style>
+</script>
+<%= form_for @poll do |f| %>
+  <div class="field">
+          <%= f.text_field :question, :size=>100 , :class=>"question"%>
+    <%= f.text_field :option1 , :class=>"option1" %>
+    <%= f.text_field :option2 , :class=>"option2" %>
+  </div>
+  <div class="actions">
+          <%= f.submit "+ Create Poll", :class=>"post_button" %>
+  </div>
+
+<% end %>
+</div>
