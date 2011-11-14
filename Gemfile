@@ -8,6 +8,7 @@ gem 'rails', '3.1.0'
 gem 'sqlite3'
 gem 'omniauth'
 
+gem 'stopwords'
 gem 'crom', :git => 'http://github.com/kgiszczak/crom'
 
 # Gems used only for assets and not required

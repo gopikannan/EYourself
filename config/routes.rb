@@ -9,9 +9,10 @@ Feel::Application.routes.draw do
 
   get "clicks/create"
 
-  resources :polls, :only => [:create, :show]
+  resources :polls, :only => [:create]
 
   get "polls/new"
+  get "polls/autocomplete"
   get "polls/show"
   get "polls/create"
   get "polls/destroy"
@@ -29,6 +30,7 @@ Feel::Application.routes.draw do
   #match "/auth/:provider/callback" => "pages#login"
   match "/auth/:provider/callback" => "sessions#new"
   match "/clicks/getcountryclicks.js" => "clicks#getcountryclicks"
+  match "/polls/autocomplete.js" => "polls#autocomplete"
   match "clicks/getcountryclickupdates.js" => "clicks#getcountryclickupdates"
 
   match "polls/blob", :to => "polls#blob"

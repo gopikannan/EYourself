@@ -35,6 +35,14 @@ class PollsController < ApplicationController
           end
   end
 
+  def autocomplete
+  	search = "%"+params[:q]+"%"
+  	@suggestions = Poll.select("question,option1,option2").where("question like ? or option1 like ? or option2 like ?",search,search,search)   
+    	respond_to do |format|
+		format.js{render:json => @suggestions.to_json}
+	end
+  end
+
   def update
           @poll = Poll.find(params[:poll_id])
           @val = 0

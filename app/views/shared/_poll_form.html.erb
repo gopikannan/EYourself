@@ -1,4 +1,12 @@
+
+<script type='text/javascript' src='jquery.bgiframe.min.js'></script>
+<script type='text/javascript' src='jquery.ajaxQueue.js'></script>
+<script type='text/javascript' src='thickbox-compressed.js'></script>
+<script type='text/javascript' src='jquery.autocomplete.js'></script>
+<link rel="stylesheet" type="text/css" href="jquery.autocomplete.css" />
+<link rel="stylesheet" type="text/css" href="thickbox.css" />
 <script src="jquery.textbox-hinter.js" language="javascript" type="text/javascript"></script>
+
 <div class="poll_form">
 
 <script type="text/javascript">
@@ -15,9 +23,29 @@ $(document).ready(function(){
                 text: 'Option 2?',
                 class: 'grey'
         });
-
+		$("#poll_question").autocomplete('/polls/autocomplete.js', {
+			multiple: true,
+			dataType: "json",
+			type: "POST",
+			parse: function(data) {
+			return $.map(data, function(row) {
+				return {
+					data: row,
+					value: row.question,
+					result: row.question + " <" + row.option1 + ">"+ " <" + row.option2 + ">"
+				}
+			});
+		},
+		formatItem: function(item) {
+			return format(item);
+		}
+		}).result(function(e, item) {
+			$("#content").append("<p>selected " + format(item) + "</p>");
+		});
 });
-
+function format(value) {
+		return value.question + " &lt;" + value.option1 + "&gt" + value.option2 + "&gt";
+	}
 </script>
 
 <style>
@@ -30,10 +58,11 @@ $(document).ready(function(){
 </script>
 <%= form_for @poll do |f| %>
   <div class="field">
-          <%= f.text_field :question, :size=>100 , :class=>"question"%>
+          <%= f.text_field :question, :size=>100 , :class=>"question", :autocomplete=>"off"%>
     <%= f.text_field :option1 , :class=>"option1" %>
     <%= f.text_field :option2 , :class=>"option2" %>
   </div>
+  <div id ="autocomplete">
   <div class="actions">
           <%= f.submit "+ Create Poll", :class=>"post_button" %>
   </div>
